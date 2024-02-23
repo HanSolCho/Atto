@@ -60,7 +60,7 @@
   
  요청 : 
  parameter		type		example
- id		            String        	testId
+ id		        String        	testId
  password		String		testPassword
  ip 			String		127.0.0.1
  
@@ -90,7 +90,7 @@
 
  요청 : 
  parameter		type		example
- id		            String        	testId
+ id		        String        	testId
 
  
  응답:
