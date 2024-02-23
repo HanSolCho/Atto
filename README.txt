@@ -8,7 +8,7 @@
  
  요청 :
  parameter		type		example
- id		            String        	testId
+ id		        String        	testId
  password		String		testPassword
  roleType		String		“admin” or “user”
  
@@ -31,7 +31,7 @@
  
  요청 : 
  parameter		type		example
- id		            String        	testId
+ id		        String        	testId
  password		String		testPassword
 
  
