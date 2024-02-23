@@ -48,30 +48,35 @@ public class HostMonitoringService {
 
     public List<HostInfo> getAllHostMonitoringInfo(String id){
         System.out.println("getAllHostMonitoringInfo");
+
         List<String> ipList = hostRepository.selectAllIp();
         HostInfo hosts = new HostInfo();
 
         for(String ip : ipList){
             hosts.setIp(ip);
-            InetAddress inetAddress = null;
-            try {
-                inetAddress = InetAddress.getByName(ip);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+                new Thread() {
+                    @Override
+                    public void run() {
+                        InetAddress inetAddress = null;
+                        try {
+                            inetAddress = InetAddress.getByName(ip);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                        try {
+                            if (inetAddress.isReachable(1000)) {
+                                hosts.setReachable(true);
+                                hostRepository.updateReachableInfo(hosts);
 
-            try {
-                if (inetAddress.isReachable(10)) {
-                    hosts.setReachable(true);
-                    hostRepository.updateReachableInfo(hosts);
-
-                } else {
-                    hosts.setReachable(false);
-                    hostRepository.updateReachableInfo(hosts);
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+                            } else {
+                                hosts.setReachable(false);
+                                hostRepository.updateReachableInfo(hosts);
+                            }
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }.start();
         }
 
         monitoringRepository.write(id," 전체 Host 현재 상태 조회 ","SUCCESS");
