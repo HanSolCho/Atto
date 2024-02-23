@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled"            value="true"/>
+        <setting name="useGeneratedKeys"        value="true"/>
+        <setting name="defaultExecutorType"     value="REUSE"/>
+
+        <setting name="callSettersOnNulls"      value="true"/>
+    </settings>
+    <typeAliases>
+        <typeAlias alias="HostInfo"              type="com.example.ato.model.HostInfo"/>
+        <typeAlias alias="Account"              type="com.example.ato.model.Account"/>
+        <typeAlias alias="Monitoring"              type="com.example.ato.model.Monitoring"/>
+    </typeAliases>
+    <mappers>
+        <mapper resource="mybatis/mapper/HostMapper.xml"/>
+        <mapper resource="mybatis/mapper/AccountMapper.xml"/>
+        <mapper resource="mybatis/mapper/MonitoringMapper.xml"/>
+    </mappers>
+</configuration>

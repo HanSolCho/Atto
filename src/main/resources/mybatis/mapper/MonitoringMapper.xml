@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ato.repository.mapper.MonitoringMapper">
+
+    <insert id="write" parameterType="Monitoring">
+        INSERT INTO monitoring (
+            id,
+            content,
+            date,
+            result
+        ) VALUES (
+                     #{id},
+                     #{content},
+                     SYSDATE(),
+                     #{result}
+                 )
+    </insert>
+
+    <select id="selectMonitoringLog" resultType="Monitoring">
+        SELECT
+            id,
+            content,
+            date,
+            result
+        FROM monitoring
+    </select>
+</mapper>

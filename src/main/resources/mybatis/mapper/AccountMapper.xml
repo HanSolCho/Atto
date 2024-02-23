@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ato.repository.mapper.AccountMapper">
+
+    <resultMap id="accountResult" type="Account">
+        <id property="id" column="id" />
+        <result property="password" column="password" />
+        <result property="accountRoleType" column="role_type" />
+        <result property="createDate" column="create_date" />
+    </resultMap>
+
+    <select id="signIn" resultMap="accountResult">
+        SELECT
+            id,
+            password,
+            role_type
+        FROM account
+        WHERE id = #{id}
+    </select>
+
+    <insert id="signUp" parameterType="Account">
+        INSERT INTO account (
+            id,
+            password,
+            role_type,
+            create_date
+        ) VALUES (
+                     #{id},
+                     #{password},
+                     #{accountRoleType},
+                     SYSDATE()
+                 )
+    </insert>
+
+    <select id="selectId" parameterType="String" resultType="String">
+        SELECT
+            id
+        FROM account
+        WHERE id = #{id}
+    </select>
+
+</mapper>

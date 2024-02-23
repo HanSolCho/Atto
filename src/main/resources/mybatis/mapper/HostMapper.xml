@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.ato.repository.mapper.HostMapper">
+
+    <resultMap id="hostResult" type="HostInfo">
+        <id property="num" column="num" />
+        <result property="name" column="name" />
+        <result property="ip" column="ip" />
+        <result property="createDate" column="create_date" />
+        <result property="updateDate" column="update_date" />
+        <result property="reachable" column="reachable" />
+        <result property="lastAliveDate" column="last_alive_date" />
+    </resultMap>
+
+    <select id="selectHosts" resultMap="hostResult">
+        SELECT
+            name,
+            ip,
+            create_date,
+            update_date,
+            num
+        FROM host
+    </select>
+
+    <select id="selectHost" resultMap="hostResult">
+        SELECT
+            name,
+            ip
+        FROM host
+        WHERE
+            num = #{num}
+    </select>
+
+    <select id="registerHostCount" resultType="int">
+        SELECT 
+            COUNT(num)
+        FROM host
+    </select>
+
+    <insert id="addHost" parameterType="HostInfo">
+        INSERT INTO host (
+                name,
+                ip,
+                create_date,
+                update_date
+        ) VALUES (
+                  #{name},
+                  #{ip},
+                  SYSDATE(),
+                  SYSDATE()
+        )
+    </insert>
+
+    <update id="updateHost" parameterType="HostInfo">
+        UPDATE host
+        SET
+            name =  #{name},
+            ip =  #{ip},
+            update_date = SYSDATE()
+        WHERE
+            num = #{num}
+    </update>
+
+    <delete id="deleteHost" parameterType="HostInfo">
+        DELETE FROM host
+        WHERE
+            num =  #{num}
+    </delete>
+
+    <update id="updateReachableInfo" parameterType="HostInfo">
+        UPDATE host
+        <set>
+            <if test="reachable">
+            reachable = #{reachable},
+            last_alive_date = SYSDATE()
+            </if>
+            <if test="!reachable">
+                reachable = #{reachable}
+            </if>
+
+        </set>
+        WHERE
+            ip = #{ip}
+    </update>
+
+    <select id="selectCurrentHostInfo" parameterType="String" resultMap="hostResult">
+        SELECT
+            name,
+            ip,
+            create_date,
+            update_date,
+            reachable,
+            last_alive_date,
+            num
+        FROM host
+        WHERE ip = #{ip}
+    </select>
+
+    <select id="selectAllIp" resultType="String">
+        SELECT
+            ip
+        FROM host
+    </select>
+    <select id="selectAllHostMonitoringInfo" resultMap="hostResult">
+        SELECT
+            name,
+            ip,
+            reachable,
+            last_alive_date,
+            num
+        FROM host
+    </select>
+    <select id="selectRegistedHost" resultMap="hostResult">
+        SELECT
+            name,
+            ip,
+            num
+        FROM host
+        WHERE
+            ip = #{ip}
+        OR
+            name = #{name}
+    </select>
+</mapper>
